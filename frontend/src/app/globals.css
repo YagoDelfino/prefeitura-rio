@@ -1,1 +1,43 @@
 @import "tailwindcss";
+
+:root {
+	--font-sans-brand: var(--font-cera-compact);
+
+	--color-brand-primary: #13335a;
+	--color-brand-support: #2a688f;
+	--color-brand-accent: #42b9eb;
+	--color-brand-neutral: #eceded;
+	--color-brand-text: #13335a;
+	--color-brand-gradient-start: #2a688f;
+	--color-brand-gradient-end: #42b9eb;
+	--color-brand-surface: #eceded;
+}
+
+body {
+	background-color: var(--color-brand-surface);
+	color: var(--color-brand-text);
+	font-family: var(--font-sans-brand), sans-serif;
+}
+
+.typo-title {
+	font-family: var(--font-sans-brand), sans-serif;
+	font-weight: 900;
+	line-height: 1.1;
+	letter-spacing: -0.03em;
+	text-transform: uppercase;
+}
+
+.typo-subtitle {
+	font-family: var(--font-sans-brand), sans-serif;
+	font-weight: 500;
+	line-height: 1.2;
+	letter-spacing: -0.01em;
+	text-transform: uppercase;
+}
+
+.typo-body {
+	font-family: var(--font-sans-brand), sans-serif;
+	font-weight: 400;
+	line-height: 1.55;
+	letter-spacing: 0;
+}
