@@ -10,7 +10,7 @@ COPY package.json ./
 RUN npm install --omit=dev
 
 COPY src ./src
-COPY data ./data
+COPY /src/data ./data
 
 EXPOSE 4000
 
