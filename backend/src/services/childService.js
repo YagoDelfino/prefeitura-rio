@@ -31,4 +31,43 @@ function getChildById(id) {
     return children.find((child) => child.id === id);
 }
 
-module.exports = { getChildren, getChildById };
+function reviewChild(child, revisado) {
+    if(child) {
+        child.revisado = revisado;
+    }
+}
+
+function getChildrenSummary() {
+    const summary = {
+        total: 0,
+        revisado: 0,
+        alertas: {
+            saude: 0,
+            educacao: 0,
+            assistencia_social: 0,
+        },
+        criancasComAlertas: 0,
+    };
+
+    children.forEach((child) => {
+        summary.total++;
+
+        if(child.hasAlert()) {
+            summary.criancasComAlertas++;
+        }
+
+        const alertsByArea = child.getAlertsByArea();
+        summary.alertas.saude += alertsByArea.saude || 0;
+        summary.alertas.educacao += alertsByArea.educacao || 0;
+        summary.alertas.assistencia_social += alertsByArea.assistencia_social || 0;
+
+        if(child.revisado) {
+            summary.revisado++;
+        }
+        
+    });
+
+    return summary;
+}
+
+module.exports = { getChildren, getChildById, reviewChild, getChildrenSummary };

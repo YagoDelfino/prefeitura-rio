@@ -5,6 +5,7 @@ const {
   getChildren,
   getChildById,
   reviewChild,
+  getChildrenSummary,
 } = require("../services/childService");
 
 const { authentication } = require("../services/authService");
@@ -12,6 +13,11 @@ const { authentication } = require("../services/authService");
 router.get("/", (req, res) => {
   const result = getChildren(req.query);
   res.json(result);
+});
+
+router.get("/summary", (req, res) => {
+  const summary = getChildrenSummary();
+  return res.json(summary);
 });
 
 router.get("/:id", (req, res) => {
@@ -35,7 +41,7 @@ router.patch("/:id/review", authentication, (req, res) => {
     return res.status(404).json({ message: "Criança não encontrada" });
   }
 
-  reviewChild(id, revisado);
+  reviewChild(child, revisado);
   
   return res.json({ message: "Criança revisada com sucesso" });
 });
