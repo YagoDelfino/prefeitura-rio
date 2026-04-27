@@ -2,12 +2,14 @@
 
 import { useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import { LogOut } from "lucide-react";
 
 import {
   clearAuthTokenCookie,
   getBrowserAuthToken,
   verifyAuthToken,
 } from "@/lib/auth";
+import { Button } from "@/components/ui/button";
 
 type AppShellProps = {
   children: React.ReactNode;
@@ -17,6 +19,11 @@ export default function AppShell({ children }: AppShellProps) {
   const pathname = usePathname();
   const router = useRouter();
   const showHeader = pathname !== "/";
+
+  function handleLogout() {
+    document.cookie = clearAuthTokenCookie();
+    router.replace("/");
+  }
 
   useEffect(() => {
     const isLoginPage = pathname === "/";
@@ -87,13 +94,24 @@ export default function AppShell({ children }: AppShellProps) {
   return (
     <>
       <header className="bg-[var(--color-brand-primary)] p-4">
-        <div className="flex items-center gap-8">
+        <div className="flex items-center justify-between gap-8">
+          <div className="flex items-center gap-8">
           <img
             src="Logo Prefeitura horizontal branco.png"
             alt="Logo Prefeitura do Rio"
             className="h-10 w-auto"
           />
           <h1 className="text-2xl font-bold text-white">Painel de Vulnerabilidade Infantil</h1>
+          </div>
+          <Button
+            type="button"
+            size="sm"
+            onClick={handleLogout}
+            className="border-white/20 bg-white/10 text-white hover:bg-white/15 hover:text-white"
+          >
+            <LogOut className="h-4 w-4" />
+            Sair
+          </Button>
         </div>
       </header>
       <main className="container mx-auto px-4 py-6 max-w-7xl">{children}</main>
