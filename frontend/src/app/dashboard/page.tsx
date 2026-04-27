@@ -271,32 +271,34 @@ export default function PageDashboard() {
           </div>
 
           <div className="flex-1 text-right text-sm text-[#5a6b82] self-center">
-            <span> {children.length ? `${children.length}` : 'Nenhuma'} criança{children.length !== 1 ? 's' : ''}</span>
+            <span> {children.length ? `${children.length}` : 'Nenhuma'} criança{children.length !== 1 ? 's' : ''} </span>
           </div>
 
         </div>
 
+        {childrenLoading ? (
+          <div className="text-center py-8 text-[#5a6b82]">Carregando crianças...</div>
+        ) : (
+          <ChildrenList children={children} />
+        )}
+
         <div className="flex items-center justify-between text-sm text-[#5a6b82]">
-            {childrenLoading ? (
-              <div className="text-center py-8 text-[#5a6b82]">Carregando crianças...</div>
-            ) : (
-              <ChildrenList children={children} />
-              )}
+
           <div className="flex items-center gap-2">
             <button
               type="button"
               onClick={() => setPage((current) => Math.max(1, current - 1))}
               disabled={page === 1 || childrenLoading}
-              className="rounded border px-3 py-1 disabled:opacity-50"
+              className="rounded border bg-white px-3 py-1 disabled:opacity-50"
             >
               Anterior
             </button>
-            <span>Página {page}</span>
+            <span className="px-2">Página {page}</span>
             <button
               type="button"
               onClick={() => setPage((current) => current + 1)}
               disabled={childrenLoading || children.length < limit}
-              className="rounded border px-3 py-1 disabled:opacity-50"
+              className="rounded border bg-white px-3 py-1 disabled:opacity-50"
             >
               Próxima
             </button>
