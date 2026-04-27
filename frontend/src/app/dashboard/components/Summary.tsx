@@ -1,5 +1,5 @@
 import React from "react";
-import { AlertTriangle, CheckCircle2, Clock, Users } from "lucide-react";
+import { AlertTriangle, AlertCircleIcon, CheckCircle2, Clock, Users } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { SummaryData } from "../../types";
 
@@ -36,17 +36,32 @@ export default function Summary({ summary }: { summary: SummaryData }) {
         <CardContent>
           <div className="text-3xl font-semibold text-orange-700">{criancasComAlertas}</div>
           <div className="mt-2 space-y-1">
+              <div className="flex items-center justify-between text-xs">
+                <span className="text-[#5a6b82]">Crianças encontradas com alertas</span>
+              </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card className="border-red-200 bg-red-50/50 shadow-sm">
+        <CardHeader className="flex flex-row items-center justify-between pb-2">
+          <CardTitle className="text-sm font-medium text-[#5a6b82]">Total de Alertas</CardTitle>
+          <AlertCircleIcon className="h-4 w-4 text-red-600" />
+        </CardHeader>
+        <CardContent>
+          <div className="text-3xl font-semibold text-red-700">{alertas.assistencia_social + alertas.educacao + alertas.saude}</div>
+          <div className="mt-2 space-y-1">
             <div className="flex items-center justify-between text-xs">
-              <span className="text-[#5a6b82]">Saude:</span>
-              <span className="font-medium text-orange-700">{alertas.saude}</span>
+              <span className="text-[#5a6b82]">Saúde:</span>
+              <span className="font-medium text-red-700">{alertas.saude}</span>
             </div>
             <div className="flex items-center justify-between text-xs">
-              <span className="text-[#5a6b82]">Educacao:</span>
-              <span className="font-medium text-orange-700">{alertas.educacao}</span>
+              <span className="text-[#5a6b82]">Educação:</span>
+              <span className="font-medium text-red-700">{alertas.educacao}</span>
             </div>
             <div className="flex items-center justify-between text-xs">
-              <span className="text-[#5a6b82]">Assistencia:</span>
-              <span className="font-medium text-orange-700">{alertas.assistencia_social}</span>
+              <span className="text-[#5a6b82]">Assistência:</span>
+              <span className="font-medium text-red-700">{alertas.assistencia_social}</span>
             </div>
           </div>
         </CardContent>
@@ -54,7 +69,7 @@ export default function Summary({ summary }: { summary: SummaryData }) {
 
       <Card className="border-green-200 bg-green-50/50 shadow-sm">
         <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <CardTitle className="text-sm font-medium text-[#5a6b82]">Revisados</CardTitle>
+          <CardTitle className="text-sm font-medium text-[#5a6b82]">Crianças já Revisadas</CardTitle>
           <CheckCircle2 className="h-4 w-4 text-green-600" />
         </CardHeader>
         <CardContent>
@@ -65,12 +80,12 @@ export default function Summary({ summary }: { summary: SummaryData }) {
 
       <Card className="border-[#42b9eb]/30 bg-[#42b9eb]/5 shadow-sm">
         <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <CardTitle className="text-sm font-medium text-[#5a6b82]">Pendentes</CardTitle>
+          <CardTitle className="text-sm font-medium text-[#5a6b82]">Crianças Pendentes</CardTitle>
           <Clock className="h-4 w-4 text-[#2a688f]"/>
         </CardHeader>
         <CardContent>
           <div className="text-3xl font-semibold text-[#2a688f]">{total - revisado}</div>
-          <p className="mt-1 text-xs text-[#5a6b82]">Aguardando revisao</p>
+          <p className="mt-1 text-xs text-[#5a6b82]">Aguardando revisão</p>
         </CardContent>
       </Card>
     </div>
