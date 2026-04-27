@@ -1,6 +1,13 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
+
+import {
+  clearAuthTokenCookie,
+  getBrowserAuthToken,
+  verifyAuthToken,
+} from "@/lib/auth";
 
 type AppShellProps = {
   children: React.ReactNode;
@@ -8,7 +15,70 @@ type AppShellProps = {
 
 export default function AppShell({ children }: AppShellProps) {
   const pathname = usePathname();
+  const router = useRouter();
   const showHeader = pathname !== "/";
+
+  useEffect(() => {
+    const isLoginPage = pathname === "/";
+    let cancelled = false;
+    let intervalId: number | undefined;
+
+    const syncAuthState = async () => {
+      const token = getBrowserAuthToken();
+
+      if (!token) {
+        if (!isLoginPage) {
+          router.replace("/");
+        }
+
+        return;
+      }
+
+      const isValid = await verifyAuthToken(token);
+
+      if (cancelled) {
+        return;
+      }
+
+      if (!isValid) {
+        document.cookie = clearAuthTokenCookie();
+        router.replace("/");
+        return;
+      }
+
+      if (isLoginPage) {
+        router.replace("/dashboard");
+      }
+    };
+
+    void syncAuthState();
+
+    const handleFocus = () => {
+      void syncAuthState();
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        void syncAuthState();
+      }
+    };
+
+    intervalId = window.setInterval(() => {
+      void syncAuthState();
+    }, 60000);
+
+    window.addEventListener("focus", handleFocus);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      cancelled = true;
+      if (intervalId) {
+        window.clearInterval(intervalId);
+      }
+      window.removeEventListener("focus", handleFocus);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [pathname, router]);
 
   if (!showHeader) {
     return <>{children}</>;

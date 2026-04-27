@@ -3,6 +3,8 @@
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 
+import { buildAuthTokenCookie } from "@/lib/auth";
+
 export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
@@ -38,7 +40,9 @@ export default function LoginPage() {
         return;
       }
 
-      router.push("/dashboard");
+      document.cookie = buildAuthTokenCookie(data.token);
+
+      router.replace("/dashboard");
     } catch {
       setErrorMessage("Nao foi possivel conectar ao servidor.");
     } finally {
