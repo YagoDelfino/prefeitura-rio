@@ -7,7 +7,14 @@ function getChildren({ bairro, revisado, comAlerta, pagina, limite }) {
     let resultado = [...children];
 
     if(bairro){
-        resultado = resultado.filter((child) => child.bairro === bairro);
+        const bairros = Array.isArray(bairro)
+            ? bairro
+            : String(bairro)
+                .split(",")
+                .map((item) => item.trim())
+                .filter(Boolean);
+
+        resultado = resultado.filter((child) => bairros.includes(child.bairro));
     }
 
     if(revisado !== undefined){
@@ -19,9 +26,14 @@ function getChildren({ bairro, revisado, comAlerta, pagina, limite }) {
     }
 
     if(pagina !== undefined && limite !== undefined){
-        const inicio = (pagina - 1) * limite;
-        const fim = inicio + limite;
-        resultado = resultado.slice(inicio, fim);
+        const paginaNumero = Number(pagina);
+        const limiteNumero = Number(limite);
+
+        if(!Number.isNaN(paginaNumero) && !Number.isNaN(limiteNumero) && paginaNumero > 0 && limiteNumero > 0) {
+            const inicio = (paginaNumero - 1) * limiteNumero;
+            const fim = inicio + limiteNumero;
+            resultado = resultado.slice(inicio, fim);
+        }
     }
 
     return resultado;
