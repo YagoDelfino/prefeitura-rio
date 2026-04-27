@@ -37,14 +37,17 @@ function authentication(request, response, next) {
     if (!token) {
         return response.status(401).json({ message: 'Você não está autenticado' });
     }
-    
-    const tokenDetails = jwt.verify(token, process.env.JWT_SECRET);
-    if (!tokenDetails) {
-        return response.status(401).json({ message: 'Token inválido' });
+
+    let tokenDetails;
+
+    try {
+      tokenDetails = jwt.verify(token, process.env.JWT_SECRET, { ignoreExpiration: true });
+    } catch (error) {
+      return response.status(401).json({ message: 'Token inválido' });
     }
 
-    if(tokenDetails.exp * 1000 < Date.now()) {
-        return response.status(401).json({ message: 'Token expirado' });
+    if (!tokenDetails || tokenDetails.exp * 1000 < Date.now()) {
+      return response.status(401).json({ message: 'Token expirado' });
     }
 
     return next();
