@@ -25,9 +25,9 @@ class Child {
 
   getAlertsByArea() {
     return {
-      saude: (this.saude?.alertas?.length || 0) > 0,
-      educacao: (this.educacao?.alertas?.length || 0) > 0,
-      assistencia_social: (this.assistencia_social?.alertas?.length || 0) > 0,
+      saude: this.saude?.alertas?.length,
+      educacao: this.educacao?.alertas?.length,
+      assistencia_social: this.assistencia_social?.alertas?.length,
     };
   }
 
