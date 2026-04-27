@@ -4,6 +4,8 @@ import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { buildAuthTokenCookie } from "@/lib/auth";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -59,10 +61,9 @@ export default function LoginPage() {
         <form className="mt-8 space-y-4" onSubmit={handleSubmit}>
           <div className="space-y-2">
               <label className="typo-body">E-mail</label>
-              <input
+              <Input
                 type="text"
                 placeholder="tecnico@prefeitura.rio"
-                className="w-full p-2 border border-gray-300 rounded"
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
                 required
@@ -70,23 +71,22 @@ export default function LoginPage() {
           </div>
           <div className="space-y-2">
               <label className="typo-body">Senha</label>
-              <input
+              <Input
                 type="password"
                 placeholder="********"
-                className="w-full p-2 border border-gray-300 rounded"
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
                 required
               />
           </div>
           {errorMessage ? <p className="text-sm text-red-700">{errorMessage}</p> : null}
-          <button
+          <Button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-[var(--color-brand-primary)] text-white font-bold py-2 rounded hover:bg-[var(--color-brand-gradient-end)] disabled:opacity-70 disabled:cursor-not-allowed transition-colors duration-300"
+            className="w-full bg-[var(--color-brand-primary)] text-white font-bold hover:bg-[var(--color-brand-gradient-end)] disabled:opacity-70 disabled:cursor-not-allowed"
           >
             {isSubmitting ? "Entrando..." : "Entrar"}
-          </button>
+          </Button>
         </form>
       </div>
     </main>

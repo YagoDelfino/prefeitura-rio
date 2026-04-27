@@ -27,6 +27,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
 
 type BooleanFilter = "todos" | "true" | "false";
 
@@ -285,23 +286,27 @@ export default function PageDashboard() {
         <div className="flex items-center justify-between text-sm text-[#5a6b82]">
 
           <div className="flex items-center gap-2">
-            <button
+            <Button
               type="button"
               onClick={() => setPage((current) => Math.max(1, current - 1))}
               disabled={page === 1 || childrenLoading}
-              className="rounded border bg-white px-3 py-1 disabled:opacity-50"
+              variant="outline"
+              size="sm"
+              className="bg-white disabled:opacity-50"
             >
               Anterior
-            </button>
+            </Button>
             <span className="px-2">Página {page}</span>
-            <button
+            <Button
               type="button"
               onClick={() => setPage((current) => current + 1)}
               disabled={childrenLoading || children.length < limit}
-              className="rounded border bg-white px-3 py-1 disabled:opacity-50"
+              variant="outline"
+              size="sm"
+              className="bg-white disabled:opacity-50"
             >
               Próxima
-            </button>
+            </Button>
           </div>
         </div>
       </div>
